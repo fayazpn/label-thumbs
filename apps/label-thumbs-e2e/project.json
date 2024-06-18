@@ -1,0 +1,9 @@
+{
+  "name": "label-thumbs-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/label-thumbs-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["label-thumbs"],
+  "// targets": "to see all targets run: nx show project label-thumbs-e2e --web",
+  "targets": {}
+}

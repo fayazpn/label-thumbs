@@ -1,0 +1,9 @@
+{
+  "name": "label-thumbs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/label-thumbs",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project label-thumbs --web",
+  "targets": {}
+}
