@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      Int    @id @default(autoincrement())
+  address String @unique
+  tasks   Task[]
+}
+
+model Worker {
+  id             Int          @id @default(autoincrement())
+  address        String       @unique
+  submissions    Submission[]
+  balance_id     Int
+  pending_amount Int
+  locked_amount  Int
+}
+
+model Task {
+  id          Int          @id @default(autoincrement())
+  title       String       @default("Select the most clickable thumbnail")
+  options     Option[]
+  signature   String
+  amount      String
+  User        User         @relation(fields: [user_id], references: [id])
+  user_id     Int
+  submissions Submission[]
+}
+
+model Option {
+  id          Int          @id @default(autoincrement())
+  image_url   String
+  option_id   Int
+  // option_id makes is used to make queries faster - so we can store in SubmissionCache table
+  task_id     Int
+  task        Task         @relation(fields: [task_id], references: [id])
+  // Each option will have a unique task related to it, so we add a foriegn key relationship
+  submissions Submission[]
+  // Every option will have multiple submissions, each submission will be a single option
+}
+
+model Submission {
+  id        Int    @id @default(autoincrement())
+  worker    Worker @relation(fields: [worker_id], references: [id])
+  worker_id Int
+  option    Option @relation(fields: [option_id], references: [id])
+  option_id Int
+  task      Task   @relation(fields: [task_id], references: [id])
+  task_id   Int
+  amount    String
+}
+
+// TODO: Make this un-ugly
+
+model SubmissionCache {
+  id      Int @id @default(autoincrement())
+  task_id Int
+  option1 Int
+  option2 Int
+  option3 Int
+  option4 Int
+  option5 Int
+  option6 Int
+  option7 Int
+  option8 Int
+}
