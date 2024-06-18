@@ -1,0 +1,24 @@
+{
+  "name": "thumbs-be",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/thumbs-be/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "thumbs-be:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "thumbs-be:build:development"
+        },
+        "production": {
+          "buildTarget": "thumbs-be:build:production"
+        }
+      }
+    }
+  }
+}
