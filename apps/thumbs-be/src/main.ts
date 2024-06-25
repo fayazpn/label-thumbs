@@ -5,6 +5,8 @@ import workerRouter from './routers/worker';
 
 const app = express();
 
+app.use(express.json());
+
 // Move this to env later
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));

@@ -5,6 +5,7 @@ import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import process from 'process';
 import { authMiddlware } from '../middleware/authMiddlware';
+import { createTaskInput } from '../types';
 
 const router = Router();
 
@@ -16,6 +17,38 @@ const s3Client = new S3Client({
     secretAccessKey: process.env.AWS_ACCESS_SECRET,
   },
   region: 'us-east-1',
+});
+
+router.post('/task', authMiddlware, async (req, res) => {
+  const body = req.body;
+  const parseData = createTaskInput.safeParse(body);
+  // @ts-ignore
+  const userId = req.userId;
+
+  // parse the signature to ensure the user paid the required amount
+  const response = await prismaClient.$transaction(async (tx) => {
+    const response = await tx.task.create({
+      data: {
+        title: parseData.data.title,
+        amount: '0.1',
+        signature: parseData.data.signature,
+        user_id: userId,
+      },
+    });
+
+    await tx.option.createMany({
+      data: parseData.data.options.map((option) => ({
+        image_url: option.imageUrl,
+        task_id: response.id,
+      })),
+    });
+
+    return response;
+  });
+
+  res.json({
+    id: response.id,
+  });
 });
 
 router.get('/presignedUrl', authMiddlware, async (req, res) => {
