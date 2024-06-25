@@ -18,8 +18,6 @@ const s3Client = new S3Client({
   region: 'us-east-1',
 });
 
-console.log(process.env.AWS_ACCESS_KEY);
-
 router.get('/presignedUrl', authMiddlware, async (req, res) => {
   // @ts-ignore
   const userId = req.userId;
