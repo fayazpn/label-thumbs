@@ -6,7 +6,6 @@ import workerRouter from './routers/worker';
 const app = express();
 
 // Move this to env later
-export const JWT_SECRET = 'fayaz-secret';
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 

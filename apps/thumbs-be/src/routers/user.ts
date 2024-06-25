@@ -3,7 +3,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../main';
+import process from 'process';
 import { authMiddlware } from '../middleware/authMiddlware';
 
 const router = Router();
@@ -17,6 +17,8 @@ const s3Client = new S3Client({
   },
   region: 'us-east-1',
 });
+
+console.log(process.env.AWS_ACCESS_KEY);
 
 router.get('/presignedUrl', authMiddlware, async (req, res) => {
   // @ts-ignore
@@ -50,7 +52,7 @@ router.post('/signin', async (req, res) => {
       {
         userId: existingUser.id,
       },
-      JWT_SECRET
+      process.env.JWT_SECRET
     );
 
     return res.json({
@@ -67,7 +69,7 @@ router.post('/signin', async (req, res) => {
       {
         userId: newUser.id,
       },
-      JWT_SECRET
+      process.env.JWT_SECRET
     );
 
     return res.json({
