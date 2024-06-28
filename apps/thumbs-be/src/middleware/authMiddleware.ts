@@ -40,9 +40,9 @@ export function workerAuthMiddleware(
     const decodedJwt = jwt.verify(token, process.env.JWT_SECRET_WORKER);
 
     // @ts-ignore
-    if (decodedJwt.userId) {
+    if (decodedJwt.workerId) {
       // @ts-ignore
-      req.userId = decodedJwt.userId;
+      req.workerId = decodedJwt.workerId;
 
       return next();
     } else {

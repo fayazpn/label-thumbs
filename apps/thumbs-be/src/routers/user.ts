@@ -42,6 +42,7 @@ router.get('/task', userAuthMiddleware, async (req, res) => {
     });
   }
 
+  // Can we make this any faster ?
   const submissions = await prismaClient.submission.findMany({
     where: {
       task_id: Number(taskId),
