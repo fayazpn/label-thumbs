@@ -19,5 +19,3 @@ const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
 server.on('error', console.error);
-
-// postgresql://thumbsdb_owner:tR7JUZnmNvu9@ep-polished-dew-a18497y2.ap-southeast-1.aws.neon.tech/thumbsdb?sslmode=require
