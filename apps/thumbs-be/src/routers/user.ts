@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import process from 'process';
+import { TOTAL_DECIMALS } from '../config';
 import { userAuthMiddleware } from '../middleware/authMiddleware';
 import { createTaskInput } from '../types';
 
@@ -86,7 +87,7 @@ router.post('/task', userAuthMiddleware, async (req, res) => {
     const response = await tx.task.create({
       data: {
         title: parseData.data.title,
-        amount: '0.1',
+        amount: 0.1 * TOTAL_DECIMALS,
         signature: parseData.data.signature,
         user_id: userId,
       },

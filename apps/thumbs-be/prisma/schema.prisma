@@ -32,7 +32,7 @@ model Task {
   title       String       @default("Select the most clickable thumbnail")
   options     Option[]
   signature   String
-  amount      String
+  amount      Int // Amount in lamports (* 10^6)
   User        User         @relation(fields: [user_id], references: [id])
   user_id     Int
   submissions Submission[]
@@ -52,13 +52,15 @@ model Option {
 
 model Submission {
   id        Int    @id @default(autoincrement())
-  worker    Worker @relation(fields: [worker_id], references: [id])
   worker_id Int
-  option    Option @relation(fields: [option_id], references: [id])
+  worker    Worker @relation(fields: [worker_id], references: [id])
   option_id Int
-  task      Task   @relation(fields: [task_id], references: [id])
+  option    Option @relation(fields: [option_id], references: [id])
   task_id   Int
-  amount    String
+  task      Task   @relation(fields: [task_id], references: [id])
+  amount    Int
+
+  @@unique([worker_id, task_id])
 }
 
 // TODO: Make this un-ugly
